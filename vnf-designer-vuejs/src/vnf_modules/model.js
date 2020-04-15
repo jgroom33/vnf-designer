@@ -1,5 +1,5 @@
 import jsyaml from 'js-yaml'
-import data from './data'
+import {data} from './data'
 
 export let current = jsyaml.safeLoad(data);
 export let target  = jsyaml.safeLoad(data);

@@ -72,6 +72,7 @@
       </div>
 </template>
 <script>
+import {setContext} from '../../vnf_modules/view'
 export default {
     props: ['model','view'],
     data() {

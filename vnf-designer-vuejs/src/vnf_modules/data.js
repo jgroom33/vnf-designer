@@ -1,4 +1,4 @@
-var data = `
+export var data = `
 ---
 schema:     1.0.1
 vnf:        demo
@@ -202,4 +202,3 @@ components:
     userdata:     ""
 
 `
-export { data }
