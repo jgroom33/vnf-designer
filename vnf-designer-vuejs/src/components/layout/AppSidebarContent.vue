@@ -29,6 +29,13 @@
 </template>
 <script>
 export default {
-    props: ['model','view']
+    props: ['model','view'],
+    components: {
+      tenantform: () => import('../tenant/TenantForm'),
+      flavors: () => import('../flavor/index'),
+      images: () => import('../image/index'),
+      networks: () => import('../network/index'),
+      components: () => import('../component/index')
+    }
 }
 </script>

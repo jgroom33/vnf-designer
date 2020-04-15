@@ -25,6 +25,10 @@
 <script>
 export default {
     props:    ['model','view'],
+    components: {
+      monitoring_network: () => import('./MonitoringNetwork'),
+      monitoring_component: () => import('./MonitoringComponent')
+    },
     methods: {
       refresh: function() {
         var self    = this
@@ -33,12 +37,12 @@ export default {
         // callback function to process the results
         function refreshCB() {
           // hide loading indicator
-          indicator = document.querySelector("#monitoring .indicator")
+          let indicator = document.querySelector("#monitoring .indicator")
           indicator.style.display = "none"
 
           if (this.readyState == 4) {
             // update in 10 seconds
-            if (view.detail == "Monitoring") {
+            if (this.view.detail == "Monitoring") {
               setTimeout(function(){self.refresh()}, 10000)
             }
 
@@ -111,16 +115,16 @@ export default {
         // issue request to server backend
         request.onreadystatechange = refreshCB
 
-        var params  = "tenant="   + model.tenant.name          + "&" +
-                      "url="      + model.tenant.auth.url      + "&" +
-                      "username=" + model.tenant.auth.username + "&" +
-                      "password=" + model.tenant.auth.password
+        var params  = "tenant="   + this.model.tenant.name          + "&" +
+                      "url="      + this.model.tenant.auth.url      + "&" +
+                      "username=" + this.model.tenant.auth.username + "&" +
+                      "password=" + this.model.tenant.auth.password
 
         request.open('GET', '/inventory', true);  // asynchronous request
         request.send(params);
 
         // switch indicator
-        indicator = document.querySelector("#monitoring .indicator")
+        let indicator = document.querySelector("#monitoring .indicator")
         indicator.style.display = "unset"
       }
     },
@@ -130,13 +134,13 @@ export default {
         var index  = 0
 
         for (var index in this.model.components) {
-          component = this.model.components[index]
+          let component = this.model.components[index]
 
           if (component.max == 1) {
             result.push({index: index, name: component.name, component: component })
             index++
           } else {
-            for (var i=01; i<=component.max; i++) {
+            for (var i=0; i<=component.max; i++) {
               result.push({index: index, name: component.name + "-" + String(i), component: component })
               index++
             }

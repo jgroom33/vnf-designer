@@ -16,6 +16,7 @@
       </div>
 </template>
 <script>
+import { NET_HEIGHT, CMP_WIDTH, DX, NET_WIDTH, DY, CMP_HEIGHT2 } from '../tenant/TenantConstants'
 export default {
     props:   ['model','view','network','index'],
     computed: {
@@ -32,7 +33,7 @@ export default {
         var count  = 0
 
         for (var index in this.model.components) {
-          component = this.model.components[index]
+          let component = this.model.components[index]
           count += component.max
         }
 

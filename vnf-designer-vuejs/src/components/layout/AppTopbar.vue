@@ -72,7 +72,9 @@
       </div>
 </template>
 <script>
-import {setContext} from '../../vnf_modules/view'
+import { setContext } from '../../vnf_modules/view'
+import { setModel } from '../../vnf_modules/model'
+import { emptyModel } from '../../vnf_modules/misc'
 export default {
     props: ['model','view'],
     data() {
@@ -184,13 +186,13 @@ export default {
       reset: function() {
         if (this.view.mode === 'current')
         {
-          current = JSON.parse(JSON.stringify(emptyModel()));
+          let current = JSON.parse(JSON.stringify(emptyModel()));
           this.view.mode='current'
           setModel(current)
           setContext('Tenant')
           // this.$forceUpdate();
         } else if (this.view.mode === 'target') {
-          target = JSON.parse(JSON.stringify(emptyModel()));
+          let target = JSON.parse(JSON.stringify(emptyModel()));
           this.view.mode='target'
           setModel(target)
           setContext('Tenant')

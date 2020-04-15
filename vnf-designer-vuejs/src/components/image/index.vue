@@ -10,6 +10,9 @@
 </template>
 <script>
 export default {
-    props: ['model','view']
+    props: ['model','view'],
+    components: {
+      imageitem: () => import('./imageItem')
+    }
 }
 </script>

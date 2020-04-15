@@ -56,5 +56,17 @@
 <script>
 export default {
     props: ['model','current','target','view','templates'],
+    components: {
+        tenant: () => import('../tenant/index'),
+        tenant_network: () => import('../tenant/TenantNetwork'),
+        tenant_network2: () => import('../tenant/TenantNetwork2'),
+        tenant_component: () => import('../tenant/TenantComponent'),
+        tenant_component2: () => import('../tenant/TenantComponent2'),
+        flavorform: () => import('../flavor/flavorForm'),
+        imageform: () => import('../image/imageForm'),
+        networkform: () => import('../network/NetworkForm'),
+        componentform: () => import('../component/ComponentForm'),
+        monitoring: () => import('../monitoring/index')
+    }
 }
 </script>

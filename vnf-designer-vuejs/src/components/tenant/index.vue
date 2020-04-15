@@ -31,6 +31,12 @@
 <script>
 export default {
     props:    ['model','view'],
+    components: {
+      tenant_network: () => import('./TenantNetwork'),
+      tenant_network2: () => import('./TenantNetwork2'),
+      tenant_component: () => import('./TenantComponent'),
+      tenant_component2: () => import('./TenantComponent2')
+    },
     methods: {
       handleClick: function(e) {
         var element = document.getElementById("tenant_layout")

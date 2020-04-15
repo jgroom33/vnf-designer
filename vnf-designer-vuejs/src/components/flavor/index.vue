@@ -10,6 +10,9 @@
 </template>
 <script>
 export default {
-    props: ['model','view']
+    props: ['model','view'],
+    components: {
+      flavoritem: () => import('./flavorItem')
+    }
 }
 </script>

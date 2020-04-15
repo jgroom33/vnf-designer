@@ -23,6 +23,7 @@
       </div>
 </template>
 <script>
+import { DX, DY, NET_HEIGHT, CMP_WIDTH, CMP_HEIGHT2 } from '../tenant/TenantConstants'
 export default {
     props:   ['model','view','component','name','index'],
     computed: {

@@ -18,18 +18,19 @@
         <div class="name"><input v-model="component.name" v-on:change="handleChange"></div>
         <div class="sizing" v-if="component.placement != 'OTHER' && component.placement != 'ROUTER'">({{component.min}}/{{component.size}}/{{component.max}})</div>
         <div class="icon" @click="viewComponent"><i class="fas fa-server"/></div>
-        <tenant_interface
-          v-for="(interface, subindex) in component.interfaces"
+        <tenant_interFace
+          v-for="(interFace, subindex) in component.interFaces"
           :key="subindex"
           v-bind:model="model"
           v-bind:view="view"
           v-bind:component="component"
-          v-bind:interface="interface"
+          v-bind:interFace="interFace"
           v-bind:index="index"
-          v-bind:subindex="subindex"></tenant_interface>
+          v-bind:subindex="subindex"></tenant_interFace>
       </div>
 </template>
 <script>
+import {NET_HEIGHT, CMP_WIDTH, DY, DX, CMP_HEIGHT} from './TenantConstants'
 export default {
     props:   ['model','view','component','index'],
     methods: {

@@ -15,6 +15,7 @@
       </div>
 </template>
 <script>
+import {NET_HEIGHT, CMP_WIDTH, DY, DX, CMP_HEIGHT} from './TenantConstants'
 export default {
     props:   ['model','view'],
     methods: {
