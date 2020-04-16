@@ -21,6 +21,8 @@
     </div>
 </template>
 <script>
+import nunjucks from 'nunjucks'
+import { fixed_ips_filter, allowed_ips_filter, port_min_filter, port_max_filter } from '../../vnf_modules/misc'
 export default {
 props:    ['model','view','templates'],
     methods: {
@@ -61,27 +63,27 @@ props:    ['model','view','templates'],
         var templates = elements.folder("templates")
 
         // export readme.md
-        var txt = render(model, "readme")
+        var txt = render(this.model, "readme")
         docs.file("README.md", txt)
 
         // export model
-        var txt = jsyaml.safeDump(model)
+        var txt = jsyaml.safeDump(this.model)
         docs.file("model.yml", txt);
 
         // export communication matrix
-        var txt = render(model, "Communication Matrix")
+        var txt = render(this.model, "Communication Matrix")
         docs.file("communication_matrix.txt", txt)
 
         // export environment file
-        var txt = render(model, "Environment")
+        var txt = render(this.model, "Environment")
         input.file("environment.yml", txt)
 
         // export openrc file
-        var txt = render(model, "openrc")
+        var txt = render(this.model, "openrc")
         input.file("openrc", txt)
 
         // export prequisites file
-        var txt = render(model, "Prequisites")
+        var txt = render(this.model, "Prequisites")
         docs.file("prequisites.txt", txt)
 
         // export setup.sh
@@ -97,33 +99,33 @@ props:    ['model','view','templates'],
         // construct a folder for each internal component
         var server_folders = {}
         var router_folders = {}
-        for (var c of model.components) {
+        for (var c of this.model.components) {
           if (c.placement != "OTHER" && c.placement != "ROUTER" ) {
-            server_folders[model.tenant.prefix + c.name] = servers.folder(model.tenant.prefix + c.name);
+            server_folders[this.model.tenant.prefix + c.name] = servers.folder(this.model.tenant.prefix + c.name);
           }
           if (c.placement == "ROUTER" ) {
-            router_folders[model.tenant.prefix + c.name] = routers.folder(model.tenant.prefix + c.name);
+            router_folders[this.model.tenant.prefix + c.name] = routers.folder(this.model.tenant.prefix + c.name);
           }
         }
 
         // export networks create file
-        var txt = render(model, "Networks (create)")
+        var txt = render(this.model, "Networks (create)")
         networks.file("create.yml", txt, {unixPermissions: "755"})
 
         // export networks delete file
-        var txt = render(model, "Networks (delete)")
+        var txt = render(this.model, "Networks (delete)")
         networks.file("delete.yml", txt, {unixPermissions: "755"})
 
         // export networks status file
-        var txt = render(model, "Networks (status)")
+        var txt = render(this.model, "Networks (status)")
         networks.file("status.yml", txt, {unixPermissions: "755"})
 
         // export servers status file
-        var txt = render(model, "Servers (status)")
+        var txt = render(this.model, "Servers (status)")
         servers.file("status.yml", txt, {unixPermissions: "755"})
 
         // export server security definition files
-        var txt  = render(model, "Servers (define security)")
+        var txt  = render(this.model, "Servers (define security)")
         var txts = splitter(txt)
 
         for (var server in txts) {
@@ -133,7 +135,7 @@ props:    ['model','view','templates'],
         }
 
         // export server security undefinition files
-        var txt  = render(model, "Servers (undefine security)")
+        var txt  = render(this.model, "Servers (undefine security)")
         var txts = splitter(txt)
 
         for (var server in txts) {
@@ -143,7 +145,7 @@ props:    ['model','view','templates'],
         }
 
         // export server creation files
-        var txt  = render(model, "Servers (create)")
+        var txt  = render(this.model, "Servers (create)")
         var txts = splitter(txt)
 
         for (var server in txts) {
@@ -155,7 +157,7 @@ props:    ['model','view','templates'],
         }
 
         // export server deletion files
-        var txt  = render(model, "Servers (delete)")
+        var txt  = render(this.model, "Servers (delete)")
         var txts = splitter(txt)
 
         for (var server in txts) {
@@ -167,7 +169,7 @@ props:    ['model','view','templates'],
         }
 
         // export server ssh management files
-        var txt  = render(model, "Servers (ssh)")
+        var txt  = render(this.model, "Servers (ssh)")
         var txts = splitter(txt)
 
         for (var server in txts) {
@@ -181,17 +183,17 @@ props:    ['model','view','templates'],
         // export networks and servers template file
         // export ansible cfg file
         input.file(     "ansible.cfg",    files['ansible.cfg'])
-        templates.file( "networks.tmpl",  files['networks.tmpl'])
-        templates.file( "servers.tmpl",   files['servers.tmpl'])
-        templates.file( "config",         files['config'])
-        templates.file( "inventory",      files['inventory'])
+        this.templates.file( "networks.tmpl",  files['networks.tmpl'])
+        this.templates.file( "servers.tmpl",   files['servers.tmpl'])
+        this.templates.file( "config",         files['config'])
+        this.templates.file( "inventory",      files['inventory'])
         output.file(    "inventory",      files['default_inventory'])
 
-        var txt = render(model, "config")
-        templates.file("config", txt, {unixPermissions: "644"})
+        var txt = render(this.model, "config")
+        this.templates.file("config", txt, {unixPermissions: "644"})
 
         // export router creation files
-        var txt  = render(model, "Router (create)")
+        var txt  = render(this.model, "Router (create)")
         var txts = splitter(txt)
 
         for (var router in txts) {
@@ -201,7 +203,7 @@ props:    ['model','view','templates'],
         }
 
         // export router deletion files
-        var txt  = render(model, "Router (delete)")
+        var txt  = render(this.model, "Router (delete)")
         var txts = splitter(txt)
 
         for (var router in txts) {
@@ -216,7 +218,7 @@ props:    ['model','view','templates'],
           var element  = document.createElement('a');
 
           element.setAttribute('href', URL.createObjectURL(content) )
-          element.setAttribute('download', this.model.vnf + "-V" + model.version + ".zip");
+          element.setAttribute('download', this.model.vnf + "-V" + this.model.version + ".zip");
 
           element.style.display = 'none';
           document.body.appendChild(element);
@@ -229,11 +231,11 @@ props:    ['model','view','templates'],
     },
     computed: {
       formats: function() {
-        return Object.keys(templates)
+        return Object.keys(this.templates)
       },
       result: function() {
-        var format = view.export
-        var tmpl   = templates[format]
+        var format = this.view.export
+        var tmpl   = this.templates[format]
         var env = nunjucks.configure({trimBlocks: true})
 
         env.addFilter('fixed',   fixed_ips_filter )
@@ -241,7 +243,7 @@ props:    ['model','view','templates'],
         env.addFilter('portmin', port_min_filter )
         env.addFilter('portmax', port_max_filter )
 
-        var result = nunjucks.renderString(tmpl, model);
+        var result = nunjucks.renderString(tmpl, this.model);
 
         return result;
       }

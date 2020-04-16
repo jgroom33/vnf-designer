@@ -73,8 +73,9 @@
 </template>
 <script>
 import { setContext } from '../../vnf_modules/view'
-import { setModel } from '../../vnf_modules/model'
+import { setModel, current, target } from '../../vnf_modules/model'
 import { emptyModel } from '../../vnf_modules/misc'
+import { validate_schema, validate_xref } from '../../vnf_modules/validator'
 export default {
     props: ['model','view'],
     data() {
@@ -164,10 +165,10 @@ export default {
         if ( this.view.navigation === "Component" ) { deleteComponent(); }
       },
       validate: function() {
-        var object = JSON.parse(JSON.stringify(model));
+        var object = JSON.parse(JSON.stringify(this.model));
 
         // verify schema
-        msg = validate_schema(object);
+        var msg = validate_schema(object);
         if (msg != '') {
           this.view.modal = msg
           return

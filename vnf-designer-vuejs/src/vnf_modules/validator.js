@@ -348,6 +348,7 @@ export var schema = {
 }
 
 //------------------------------------------------------------------------------
+import Ajv from 'ajv'
 
 export function validate_schema(object) {
   var ajv    = new Ajv(); // options can be passed, e.g. {allErrors: true}

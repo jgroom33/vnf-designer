@@ -35,7 +35,7 @@ export default {
         var request = new XMLHttpRequest();
 
         // callback function to process the results
-        function refreshCB() {
+        refreshCB: () => {
           // hide loading indicator
           let indicator = document.querySelector("#monitoring .indicator")
           indicator.style.display = "none"

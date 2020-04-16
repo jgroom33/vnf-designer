@@ -66,7 +66,10 @@ export default {
         imageform: () => import('../image/imageForm'),
         networkform: () => import('../network/NetworkForm'),
         componentform: () => import('../component/ComponentForm'),
-        monitoring: () => import('../monitoring/index')
+        monitoring: () => import('../monitoring/index'),
+        importform: () => import('../import/ImportForm'),
+        exportform: () => import('../export/exportForm'),
+        deltaform: () => import('../delta/index')
     }
 }
 </script>

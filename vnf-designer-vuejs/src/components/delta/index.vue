@@ -55,6 +55,8 @@
     </div>
 </template>
 <script>
+import { current, target } from '../../vnf_modules/model'
+import jsyaml from 'js-yaml'
 export default {
     props:    ['model','current','target','view','templates'],
     computed: {
@@ -141,8 +143,8 @@ export default {
           if (flavor.current.disk    !== flavor.target.disk)    { flavor.delta = 'update'; continue;}
           if (flavor.current.public  !== flavor.target.public)  { flavor.delta = 'update'; continue;}
 
-          currentSpecial = jsyaml.safeDump(flavor.current.special)
-          targetSpecial  = jsyaml.safeDump(flavor.target.special)
+          let currentSpecial = jsyaml.safeDump(flavor.current.special)
+          let targetSpecial  = jsyaml.safeDump(flavor.target.special)
           if (currentSpecial !== targetSpecial) { flavor.delta = 'update'; continue;}
         }
 
