@@ -93,3 +93,58 @@ export default {
     props: ['model','view']
 }
 </script>
+<style scoped>
+#tenantform {
+  position: absolute;
+  left:     0px;
+  right:    0px;
+  top:      0px;
+  bottom:   0px;
+  padding:  8px;
+}
+
+#tenantform .header {
+  font-size:   20px;
+  font-weight: bold;
+}
+
+#tenantform .subheader {
+  font-size:   14px;
+  font-weight: bolder;
+  padding-top: 24px;
+  padding-left: 8px;
+}
+
+#tenantform hr {
+  border: 0;
+  border-top: 1px dashed #c0c0c0;
+  margin-top:    4px;
+  margin-bottom: 0px;
+}
+
+#tenantform .line {
+  padding-top: 8px;
+  padding-left: 4px;
+}
+
+#tenantform .line label {
+  display:     inline-block;
+  width:       80px;
+  font-weight: bold;
+}
+
+#tenantform .line label.top {
+  width:       200px;
+}
+
+#tenantform .line input {
+  display:     inline-block;
+  width:       200px;
+}
+
+#tenantform .line select {
+  display:          inline-block;
+  width:            200px;
+  background-color: white;
+}
+</style>

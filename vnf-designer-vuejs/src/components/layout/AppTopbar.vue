@@ -128,7 +128,7 @@ export default {
             tabs.style.display = "none"
             break
           case "Docs":
-            var win = window.open("/docs/doc.html", '_blank');
+            var win = window.open("/docs", '_blank');
             win.focus();
             break;
           default:
@@ -203,3 +203,127 @@ export default {
     }
 }
 </script>
+<style scoped>
+#appheader {
+  position:         absolute;
+  left:             0px;
+  right:            0px;
+  top:              0px;
+  height:           56px;
+  line-height:      32px;
+  vertical-align:   middle;
+  background-color: #2A3F54;
+  border-bottom:    1px solid grey;
+  min-width:        1024px;
+}
+#appheader .tabs {
+  position:      absolute;
+  left:          0px;
+  width:         320px;
+  top:           34px;
+  height:        24px;
+}
+
+#appheader .tabs div {
+  float:                    left;
+  line-height:              20px;
+  padding-left:             4px;
+  padding-right:            4px;
+  border-top-left-radius:   8px;
+  border-top-right-radius:  8px;
+  cursor:                   pointer;
+  background-color:         grey;
+  color:                    black;
+  margin-top:               2px;
+  margin-right:             1px;
+  font-size:                11px;
+}
+
+#apptitle {
+  color: white;
+}
+
+#appheader .tabs div.active {
+  background-color:         lightgrey;
+}
+
+#appheader .tabs div.button {
+  float:            right;
+  margin:           4px;
+  height:           16px;
+  font-size:        8px;
+  line-height:      16px;
+  background-color: darkgrey;
+  padding-right:    4px;
+  border:           none;
+  border-radius:    8px;
+  vertical-align:   middle;
+  text-align:       center;
+}
+
+#appheader .tabs div.button:hover {
+  background-color: darkgrey;
+  color:            white;
+}
+#appheader .logo {
+  position:       absolute;
+  top:            4px;
+  left:           4px;
+  height:         28px;
+  line-height:    28px;
+  padding-left:   4px;
+  padding-right:  4px;
+  vertical-align: middle;
+  overflow:       hidden;
+  text-overflow:  ellipsis;
+  font-size:      20px;
+  color:          #aaa;
+}
+
+#appheader .label {
+  position:       absolute;
+  top:            32px;
+  left:           320px;
+  height:         20px;
+  line-height:    20px;
+  padding-left:   4px;
+  padding-right:  4px;
+  vertical-align: middle;
+  overflow:       hidden;
+  text-overflow:  ellipsis;
+  font-size:      16px;
+}
+#appheader .buttons {
+  position:       absolute;
+  right:          0px;
+  top:            4px;
+  height:         20px;
+  padding-right:  32px;
+}
+
+#appheader .buttons div {
+  float:          left;
+  line-height:    20px;
+  padding-left:   4px;
+  padding-right:  4px;
+  margin-left:    2px;
+  margin-right:   2px;
+  border-radius:  4px;
+  cursor:         pointer;
+  color:          darkgrey;
+}
+
+#appheader .buttons div:hover {
+  color: black;
+}
+
+#appheader .buttons div:last-child {
+  padding-right:   4px;
+  width:           128px;
+}
+
+#appheader .buttons div.active {
+  background-color: blue;
+  color:            white;
+}
+</style>

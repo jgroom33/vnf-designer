@@ -73,3 +73,16 @@ export default {
     }
 }
 </script>
+<style scoped>
+#appdetail {
+  position:          absolute;
+  left:              320px;
+  right:             0px;
+  bottom:            0px;
+  top:               56px;
+  overflow-y:        scroll;
+  min-height:        544px;
+  min-width:         704px;
+  background-color:  white;
+}
+</style>
