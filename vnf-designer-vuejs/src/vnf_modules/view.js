@@ -1,3 +1,4 @@
+import { model } from './model'
 export var view = {
 	navigation: "Tenant",
   detail:     "Tenant",

@@ -17,6 +17,7 @@
 </template>
 <script>
 import {NET_HEIGHT, CMP_WIDTH, DY, DX, NET_WIDTH, CMP_HEIGHT} from './TenantConstants'
+import { deleteNetwork } from './TenantConstants'
 export default {
     props:   ['model','view','network','index'],
     methods: {

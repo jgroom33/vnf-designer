@@ -44,6 +44,7 @@
     </div>
 </template>
 <script>
+import { addFlavorAttribute, delFlavorAttribute } from '../../vnf_modules/model'
 export default {
     props:    ['model','view','flavor'],
     methods: {

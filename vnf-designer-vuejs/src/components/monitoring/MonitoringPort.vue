@@ -13,6 +13,7 @@
       </div>
 </template>
 <script>
+import { CMP_WIDTH, DX, NET_WIDTH, CMP_HEIGHT2 } from '../tenant/TenantConstants'
 export default {
     props:   ['model','view','component','componentInterface', 'name','index', 'subindex'],
     computed: {

@@ -16,6 +16,7 @@
 </template>
 <script>
 import {NET_HEIGHT, CMP_WIDTH, DY, DX, CMP_HEIGHT} from './TenantConstants'
+import { addComponent } from '../../vnf_modules/model'
 export default {
     props:   ['model','view'],
     methods: {

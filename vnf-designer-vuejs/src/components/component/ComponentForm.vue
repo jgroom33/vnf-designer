@@ -71,14 +71,14 @@
           <label class="top"></label>
           <label v-on:click="addInterface()"><i class="fas fa-plus-circle"/></label>
         </div>
-        <div class="line" v-for="(componentInterface,index) in component.interFaces">
-          <select v-bind:id="'interFaces_' + index + '_network'" v-bind:name="'interFaces_' + index + '_network'" v-model="componentInterface.network" v-bind:class="{valid: all_networks.includes(componentInterface.network)}" required>
+        <div class="line" v-for="(componentInterface,index) in component.componentInterfaces">
+          <select v-bind:id="'interfaces_' + index + '_network'" v-bind:name="'interfaces_' + index + '_network'" v-model="componentInterface.network" v-bind:class="{valid: all_networks.includes(componentInterface.network)}" required>
             <option disabled value="">Please select one</option>
             <option v-for="network in all_networks" v-bind:value="network">
               {{ network }}
             </option>
           </select>
-          <input class="col3" v-bind:id="'interFaces_' + index + '_attributes'" v-bind:name="'interFaces_' + index + '_attributes'" v-model="componentInterface.attributes">
+          <input class="col3" v-bind:id="'interfaces_' + index + '_attributes'" v-bind:name="'interfaces_' + index + '_attributes'" v-model="componentInterface.attributes">
           <label v-on:click="delInterface(componentInterface)"><i class="fas fa-minus-circle"/></label>
         </div>
 
@@ -95,7 +95,7 @@
           <input v-bind:id="'services_' + index + '_name'" v-bind:name="'services_' + index + '_name'" v-model="service.name" required>
           <select v-bind:id="'services_' + index + '_network'" v-bind:name="'services_' + index + '_network'" v-model="service.network" v-bind:class="{valid: service.network !== ''}">
             <option disabled value="">Please select one</option>
-            <option v-for="componentInterface in component.interFaces" v-bind:value="componentInterface.network">
+            <option v-for="componentInterface in component.componentInterfaces" v-bind:value="componentInterface.network">
               {{ componentInterface.network }}
             </option>
           </select>
@@ -130,9 +130,9 @@
               {{ service.service }}
             </option>
           </select>
-          <select v-bind:id="'dependencies_' + index + '_network'" v-bind:name="'dependencies_' + index + '_network'" v-model="dependency.network" v-bind:class="{valid: interFaces.includes(dependency.network)}" required>
+          <select v-bind:id="'dependencies_' + index + '_network'" v-bind:name="'dependencies_' + index + '_network'" v-model="dependency.network" v-bind:class="{valid: componentInterfaces.includes(dependency.network)}" required>
             <option disabled value="">Please select one</option>
-            <option v-for="componentInterface in component.interFaces" v-bind:value="componentInterface.network">
+            <option v-for="componentInterface in component.componentInterfaces" v-bind:value="componentInterface.network">
               {{ componentInterface.network }}
             </option>
           </select>
@@ -151,6 +151,7 @@
       </div>
 </template>
 <script>
+import { addComponentInterface, delComponentInterface, addComponentService, delComponentService, addComponentDependency, delComponentDependency, addComponentVolume, delComponentVolume } from "../../vnf_modules/model"
 export default {
     props:    ['model','view','component'],
     computed: {
@@ -182,8 +183,8 @@ export default {
       all_networks: function() {
         return this.model.networks.map(x => x.name)
       },
-      interFaces: function() {
-        return this.component.interFaces.map(x => x.network)
+      componentInterfaces: function() {
+        return this.component.componentInterfaces.map(x => x.network)
       },
       zones: function() {
         return ['OTHER','EXT','INT','MGMT','ROUTER']

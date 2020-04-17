@@ -6,10 +6,10 @@ export const CMP_WIDTH = 200;
 export const CMP_HEIGHT = 32;
 export const CMP_HEIGHT2 = 16;
 export const TXT_HEIGHT = 16;
-const XOFFSET = DX + CMP_WIDTH;
-const YOFFSET = DY + NET_HEIGHT;
-const XSLOT = DX + NET_WIDTH;
-const YSLOT = DY + CMP_HEIGHT;
+export const XOFFSET = DX + CMP_WIDTH;
+export const YOFFSET = DY + NET_HEIGHT;
+export const XSLOT = DX + NET_WIDTH;
+export const YSLOT = DY + CMP_HEIGHT;
 export const PXOFFSET = 320;
 export const PYOFFSET = 56;
 

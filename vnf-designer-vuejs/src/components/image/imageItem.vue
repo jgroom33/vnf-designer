@@ -5,6 +5,7 @@
       </div>
 </template>
 <script>
+import { deleteImage } from '../../vnf_modules/model'
 export default {
     props:    ['model','view','image'],
     methods:  {

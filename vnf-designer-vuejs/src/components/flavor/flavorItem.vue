@@ -5,6 +5,7 @@
       </div>
 </template>
 <script>
+import { deleteFlavor } from '../../vnf_modules/model'
 export default {
     props:    ['model','view','flavor'],
     methods:  {

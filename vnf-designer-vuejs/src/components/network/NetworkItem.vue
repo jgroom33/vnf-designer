@@ -5,6 +5,7 @@
       </div>
 </template>
 <script>
+import { deleteNetwork } from '../../vnf_modules/model'
 export default {
     props:    ['model','view','network'],
     methods:  {

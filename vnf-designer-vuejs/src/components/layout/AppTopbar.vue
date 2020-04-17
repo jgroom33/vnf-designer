@@ -73,7 +73,7 @@
 </template>
 <script>
 import { setContext } from '../../vnf_modules/view'
-import { setModel, current, target } from '../../vnf_modules/model'
+import { setModel, current, target, addFlavor, addImage, addNetwork, addComponent } from '../../vnf_modules/model'
 import { emptyModel } from '../../vnf_modules/misc'
 import { validate_schema, validate_xref } from '../../vnf_modules/validator'
 export default {

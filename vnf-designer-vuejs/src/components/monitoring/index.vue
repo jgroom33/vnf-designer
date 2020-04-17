@@ -155,7 +155,7 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style>
 #monitoring {
   position: absolute;
   left:     0px;

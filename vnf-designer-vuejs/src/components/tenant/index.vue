@@ -29,6 +29,8 @@
     </div>
 </template>
 <script>
+import { PXOFFSET, XOFFSET, PYOFFSET, YOFFSET, XSLOT, YSLOT } from './TenantConstants'
+import { hasComponentInterface, delComponentInterface, addComponentInterface } from '../../vnf_modules/model'
 export default {
     props:    ['model','view'],
     components: {

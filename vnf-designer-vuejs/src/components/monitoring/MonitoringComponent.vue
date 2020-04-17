@@ -11,7 +11,7 @@
         <div class="name">{{name}}</div>
         <div class="icon"><i class="fas fa-server"/></div>
         <monitoring_port
-          v-for="(componentInterface, subindex) in component.component.interFaces"
+          v-for="(componentInterface, subindex) in component.component.componentInterfaces"
           :key="subindex"
           :model="model"
           :view="view"
@@ -24,8 +24,12 @@
 </template>
 <script>
 import { DX, DY, NET_HEIGHT, CMP_WIDTH, CMP_HEIGHT2 } from '../tenant/TenantConstants'
+import monitoring_port from './MonitoringPort'
 export default {
     props:   ['model','view','component','name','index'],
+    components: {
+      monitoring_port
+    },
     computed: {
       t: function() {
         return DY+NET_HEIGHT + this.index * (DY+CMP_HEIGHT2);

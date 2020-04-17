@@ -13,11 +13,12 @@
       </div>
 </template>
 <script>
+import { CMP_HEIGHT, CMP_WIDTH, DX, NET_WIDTH,   } from './TenantConstants'
 export default {
     props:   ['model','view','component','componentInterface','index','subindex'],
     computed: {
       t: function() {
-        return (this.subindex+1) * CMP_HEIGHT/(this.component.interfaces.length + 1)
+        return (this.subindex+1) * CMP_HEIGHT/(this.component.componentInterfaces.length + 1)
       },
       l: function() {
         return CMP_WIDTH;

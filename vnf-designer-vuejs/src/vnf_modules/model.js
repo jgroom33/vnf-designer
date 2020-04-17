@@ -143,7 +143,7 @@ export function delComponentVolume(component,volume) {
 
 //------------------------------------------------------------------------------
 
-export function addComponentcomponentInterface(component,network="") {
+export function addComponentInterface(component,network="") {
   var name = (network !== "" ? network : "net-" + (component.componentInterfaces.length + 1));
 
   component.componentInterfaces.push({network: network, ipv4: "", ipv6: "", attributes:  ""});
@@ -151,7 +151,7 @@ export function addComponentcomponentInterface(component,network="") {
 
 //------------------------------------------------------------------------------
 
-export function delComponentcomponentInterface(component,componentInterface) {
+export function delComponentInterface(component,componentInterface) {
   var index = component.componentInterfaces.indexOf(componentInterface);
 
   if (index > -1) { component.componentInterfaces.splice(index,1) }
@@ -159,7 +159,7 @@ export function delComponentcomponentInterface(component,componentInterface) {
 
 //------------------------------------------------------------------------------
 
-export function hasComponentcomponentInterface(component,network) {
+export function hasComponentInterface(component,network) {
   for (var componentInterface of component.componentInterfaces) {
     if (componentInterface.network === network) {return componentInterface;}
   }

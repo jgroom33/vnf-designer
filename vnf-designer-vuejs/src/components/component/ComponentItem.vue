@@ -5,6 +5,7 @@
     </div>
 </template>
 <script>
+import { deleteComponent } from '../../vnf_modules/model'
 export default {
     props:    ['model','view','component'],
     methods:  {
