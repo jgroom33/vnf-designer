@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-    props:   ['model','view','component','interface','index','subindex'],
+    props:   ['model','view','component','componentInterface','index','subindex'],
     computed: {
       t: function() {
         return (this.subindex+1) * CMP_HEIGHT/(this.component.interfaces.length + 1)
@@ -25,7 +25,7 @@ export default {
       w: function() {
         for ( var i = 0; i < this.model.networks.length; i++ )
         {
-          if (this.interface.network === this.model.networks[i].name) {
+          if (this.componentInterface.network === this.model.networks[i].name) {
             return i * (DX+NET_WIDTH) + NET_WIDTH
           }
         }
@@ -38,7 +38,7 @@ export default {
       n: function() {
         for ( var i = 0; i < this.model.networks.length; i++ )
         {
-          if (this.interface.network === this.model.networks[i].name) {
+          if (this.componentInterface.network === this.model.networks[i].name) {
             return i
           }
         }
@@ -46,7 +46,7 @@ export default {
         return 0
       },
       a: function() {
-        return this.interface.network + (this.interface.attributes != "" ? ": " + this.interface.attributes : "")
+        return this.componentInterface.network + (this.componentInterface.attributes != "" ? ": " + this.componentInterface.attributes : "")
       }
     }
 }

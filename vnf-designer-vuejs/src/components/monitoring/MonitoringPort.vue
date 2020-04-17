@@ -1,8 +1,8 @@
 <template>
       <div
         :class="'port monitoring_port network' + i"
-        :id="'monitoring_port_' + name + '_' + interFace.network"
-        :title="name + ':' + interFace.network + a "
+        :id="'monitoring_port_' + name + '_' + componentInterface.network"
+        :title="name + ':' + componentInterface.network + a "
         :style="{
           top:    t + 'px',
           left:   l + 'px',
@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-    props:   ['model','view','component','interFace', 'name','index', 'subindex'],
+    props:   ['model','view','component','componentInterface', 'name','index', 'subindex'],
     computed: {
       t: function() {
         return 0;
@@ -30,7 +30,7 @@ export default {
       },
       i: function() {
         for (var index2=0; index2 < this.model.networks.length; index2++) {
-          if (this.interFace.network == this.model.networks[index2].name) {
+          if (this.componentInterface.network == this.model.networks[index2].name) {
             return index2
           }
         }
@@ -38,7 +38,7 @@ export default {
         return this.model.networks.length;
       },
       a: function() {
-        return (this.interFace.attributes == "" ? "" : ' (' + this.interFace.attributes + ')')
+        return (this.componentInterface.attributes == "" ? "" : ' (' + this.componentInterface.attributes + ')')
       }
     }
 }

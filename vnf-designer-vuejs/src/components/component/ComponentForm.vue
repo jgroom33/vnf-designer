@@ -71,15 +71,15 @@
           <label class="top"></label>
           <label v-on:click="addInterface()"><i class="fas fa-plus-circle"/></label>
         </div>
-        <div class="line" v-for="(interFace,index) in component.interFaces">
-          <select v-bind:id="'interFaces_' + index + '_network'" v-bind:name="'interFaces_' + index + '_network'" v-model="interFace.network" v-bind:class="{valid: all_networks.includes(interFace.network)}" required>
+        <div class="line" v-for="(componentInterface,index) in component.interFaces">
+          <select v-bind:id="'interFaces_' + index + '_network'" v-bind:name="'interFaces_' + index + '_network'" v-model="componentInterface.network" v-bind:class="{valid: all_networks.includes(componentInterface.network)}" required>
             <option disabled value="">Please select one</option>
             <option v-for="network in all_networks" v-bind:value="network">
               {{ network }}
             </option>
           </select>
-          <input class="col3" v-bind:id="'interFaces_' + index + '_attributes'" v-bind:name="'interFaces_' + index + '_attributes'" v-model="interFace.attributes">
-          <label v-on:click="delInterface(interFace)"><i class="fas fa-minus-circle"/></label>
+          <input class="col3" v-bind:id="'interFaces_' + index + '_attributes'" v-bind:name="'interFaces_' + index + '_attributes'" v-model="componentInterface.attributes">
+          <label v-on:click="delInterface(componentInterface)"><i class="fas fa-minus-circle"/></label>
         </div>
 
         <div class="subheader" v-if="component.placement != 'ROUTER'">Services:</div>
@@ -95,8 +95,8 @@
           <input v-bind:id="'services_' + index + '_name'" v-bind:name="'services_' + index + '_name'" v-model="service.name" required>
           <select v-bind:id="'services_' + index + '_network'" v-bind:name="'services_' + index + '_network'" v-model="service.network" v-bind:class="{valid: service.network !== ''}">
             <option disabled value="">Please select one</option>
-            <option v-for="interFace in component.interFaces" v-bind:value="interFace.network">
-              {{ interFace.network }}
+            <option v-for="componentInterface in component.interFaces" v-bind:value="componentInterface.network">
+              {{ componentInterface.network }}
             </option>
           </select>
           <select v-bind:id="'services_' + index + '_protocol'" v-bind:name="'services_' + index + '_protocol'" v-model="service.protocol" v-bind:class="{valid: protocols.includes(service.protocol)}" required>
@@ -132,8 +132,8 @@
           </select>
           <select v-bind:id="'dependencies_' + index + '_network'" v-bind:name="'dependencies_' + index + '_network'" v-model="dependency.network" v-bind:class="{valid: interFaces.includes(dependency.network)}" required>
             <option disabled value="">Please select one</option>
-            <option v-for="interFace in component.interFaces" v-bind:value="interFace.network">
-              {{ interFace.network }}
+            <option v-for="componentInterface in component.interFaces" v-bind:value="componentInterface.network">
+              {{ componentInterface.network }}
             </option>
           </select>
 
@@ -208,7 +208,7 @@ export default {
       addVolume:     function()           { addComponentVolume(this.component); },
       delVolume:     function(volume)     { delComponentVolume(this.component,volume); },
       addInterface:  function()           { addComponentInterface(this.component); },
-      delInterface:  function(interFace)  { delComponentInterface(this.component,interFace); },
+      delInterface:  function(componentInterface)  { delComponentInterface(this.component,componentInterface); },
       addService:    function()           { addComponentService(this.component); },
       delService:    function(service)    { delComponentService(this.component,service); },
       addDependency: function()           { addComponentDependency(this.component); },

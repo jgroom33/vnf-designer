@@ -222,7 +222,7 @@ export var schema = {
       "items": {
         "title":    "Component",
         "type":     "object",
-        "required": ["uuid","name","placement","flavor","image","min","size","max","interfaces","volumes","services","dependencies","userdata"],
+        "required": ["uuid","name","placement","flavor","image","min","size","max","componentInterfaces","volumes","services","dependencies","userdata"],
         "properties": {
 
           "uuid": { "type": "string",
@@ -255,11 +255,11 @@ export var schema = {
           "userdata": { "type": "string",
             "description": "Initialisation script" },
 
-          "interfaces": {
-            "description": "The interfaces to virtual networks",
+          "componentInterfaces": {
+            "description": "The componentInterfaces to virtual networks",
             "type":        "array",
             "items": {
-              "title":    "Component Interface",
+              "title":    "Component componentInterface",
               "type":     "object",
               "required": ["network","attributes"],
               "properties": {
@@ -349,6 +349,7 @@ export var schema = {
 
 //------------------------------------------------------------------------------
 import Ajv from 'ajv'
+import { setFocus } from './view'
 
 export function validate_schema(object) {
   var ajv    = new Ajv(); // options can be passed, e.g. {allErrors: true}
@@ -399,17 +400,17 @@ export function validate_xref(object) {
       return "Reference error:\ninvalid image " + ".components[" + index + "].image";
     }
 
-    // check interfaces
+    // check componentInterfaces
     var component_networks = []
-    for ( var subindex = 0; subindex < component.interfaces.length; subindex++) {
-      var interface = component.interfaces[subindex]
+    for ( var subindex = 0; subindex < component.componentInterfaces.length; subindex++) {
+      var componentInterface = component.componentInterfaces[subindex]
 
-      component_networks.push( interface.network )
+      component_networks.push( componentInterface.network )
 
-      if ( !networks.includes(interface.network) ) {
-        setFocus(".components[" + index + "].interfaces[" + subindex + "].network")
+      if ( !networks.includes(componentInterface.network) ) {
+        setFocus(".components[" + index + "].componentInterfaces[" + subindex + "].network")
 
-        return "Reference error\ninvalid network " + ".components[" + index + "].interfaces[" + subindex + "].network";
+        return "Reference error\ninvalid network " + ".components[" + index + "].componentInterfaces[" + subindex + "].network";
       }
     }
 
@@ -426,7 +427,7 @@ export function validate_xref(object) {
 
     // check dependencies
     for ( var subindex = 0; subindex < component.dependencies.length; subindex++) {
-      dependency = component.dependencies[subindex]
+      let dependency = component.dependencies[subindex]
 
       if ( !components.includes(dependency.component) ) {
         setFocus(".components[" + index + "].dependencies[" + subindex + "].component")

@@ -35,7 +35,7 @@ export default {
         var request = new XMLHttpRequest();
 
         // callback function to process the results
-        refreshCB: () => {
+        let refreshCB = () => {
           // hide loading indicator
           let indicator = document.querySelector("#monitoring .indicator")
           indicator.style.display = "none"
@@ -113,7 +113,7 @@ export default {
         }
 
         // issue request to server backend
-        request.onreadystatechange = refreshCB
+        request.onreadystatechange = refreshCB()
 
         var params  = "tenant="   + this.model.tenant.name          + "&" +
                       "url="      + this.model.tenant.auth.url      + "&" +

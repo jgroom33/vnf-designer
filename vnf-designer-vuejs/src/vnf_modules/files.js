@@ -37,7 +37,7 @@ servers:
 {% if n.server_found == false %}
     status:  "unknown"
 {% endif %}
-    interfaces:
+    componentInterfaces:
 {% for port_name in port_names %}{% if port_name.startswith(server_name + '_') %}
 {% set n.port_found = false %}
       {{ port_name | replace(prefix + server_name + "_","") }}:

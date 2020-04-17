@@ -93,14 +93,14 @@ components:
 {% for volume in component.volumes %}
       - { name: "{{volume.name}}", size: {{volume.size}}, type: "{{volume.type}}", attributes: "{{volume.attributes}}" }
 {% endfor %}
-{% if component.interfaces|length == 0 %}
-    interfaces:   []
+{% if component.componentInterfaces|length == 0 %}
+    componentInterfaces:   []
 {% endif -%}
-{% if component.interfaces|length >  0 %}
-    interfaces:
+{% if component.componentInterfaces|length >  0 %}
+    componentInterfaces:
 {% endif -%}
-{% for interface in component.interfaces %}
-      - { network: "{{interface.network}}", attributes: "{{interface.attributes}}" }
+{% for componentInterface in component.componentInterfaces %}
+      - { network: "{{componentInterface.network}}", attributes: "{{componentInterface.attributes}}" }
 {% endfor %}
 {% if component.services|length == 0 %}
     services:     []
@@ -345,12 +345,12 @@ templates['Servers (status)'] = `#!/usr/bin/env ansible-playbook
       set_fact:
         port_names:
 {% for component in components %}{% if component.placement != 'OTHER' %}{% if component.placement != 'ROUTER' %}
-{% for interface in component.interfaces %}
+{% for componentInterface in component.componentInterfaces %}
 {% if component.max == 1 %}
-          - {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}}
+          - {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}}
 {% else %}
 {% for server_index in range(1,component.max,1) %}
-          - {{tenant.prefix}}{{component.name}}-{{server_index}}_{{tenant.prefix}}{{interface.network}}
+          - {{tenant.prefix}}{{component.name}}-{{server_index}}_{{tenant.prefix}}{{componentInterface.network}}
 {% endfor %}
 {% endif %}
 {% endfor %}
@@ -406,21 +406,21 @@ templates['Servers (define security)'] = `{% for component in components %}{% if
   environment: "{{ '{{env_vars}}' }}"
   tasks:
 
-{% for interface in component.interfaces %}
-  # ----- security group for {{tenant.prefix}}{{component.name}} interface {{tenant.prefix}}{{interface.network}} -----
-  - name: Create {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}} security group
+{% for componentInterface in component.componentInterfaces %}
+  # ----- security group for {{tenant.prefix}}{{component.name}} componentInterface {{tenant.prefix}}{{componentInterface.network}} -----
+  - name: Create {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}} security group
     os_security_group:
       state:          present
-      name:           {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}}
-      description:    Security group for the {{tenant.prefix}}{{component.name}} {{tenant.prefix}}{{interface.network}} interface.
+      name:           {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}}
+      description:    Security group for the {{tenant.prefix}}{{component.name}} {{tenant.prefix}}{{componentInterface.network}} componentInterface.
       validate_certs: no
     register: secgroup
 
-  # ----- reset all ingress security rules for {{tenant.prefix}}{{component.name}} interface {{tenant.prefix}}{{interface.network}} -----
-  - name: Delete all ingress {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}} security group rules
+  # ----- reset all ingress security rules for {{tenant.prefix}}{{component.name}} componentInterface {{tenant.prefix}}{{componentInterface.network}} -----
+  - name: Delete all ingress {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}} security group rules
     os_security_group_rule:
       state:            absent
-      security_group:   {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}}
+      security_group:   {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}}
       protocol:         "{{ '{{item.protocol}}' }}"
       port_range_min:   "{{ '{{item.port_range_min}}' }}"
       port_range_max:   "{{ '{{item.port_range_max}}' }}"
@@ -431,11 +431,11 @@ templates['Servers (define security)'] = `{% for component in components %}{% if
     loop: "{{ '{{secgroup.secgroup.security_group_rules}}' }}"
     when: item.direction == "ingress"
 
-  # ----- security group rules for {{tenant.prefix}}{{component.name}} interface {{tenant.prefix}}{{interface.network}} -----
-  - name: Create {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}} security group rules
+  # ----- security group rules for {{tenant.prefix}}{{component.name}} componentInterface {{tenant.prefix}}{{componentInterface.network}} -----
+  - name: Create {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}} security group rules
     os_security_group_rule:
       state:            present
-      security_group:   {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}}
+      security_group:   {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}}
       protocol:         "{{ '{{item.protocol}}' }}"
       port_range_min:   "{{ '{{item.port_range_min}}' }}"
       port_range_max:   "{{ '{{item.port_range_max}}' }}"
@@ -445,12 +445,12 @@ templates['Servers (define security)'] = `{% for component in components %}{% if
     ignore_errors:      yes
     loop:
     - {protocol: icmp, port_range_min: 0, port_range_max: 255, remote_ip_prefix: 0.0.0.0/0}
-{% for service in component.services %}{% if interface.network == service.network %}
-{% for network in networks %}{% if interface.network == network.name %}
+{% for service in component.services %}{% if componentInterface.network == service.network %}
+{% for network in networks %}{% if componentInterface.network == network.name %}
     - {protocol: {{service.protocol}}, port_range_min: {{service.range | portmin }}, port_range_max: {{service.range | portmax }}, remote_ip_prefix: {{network.ipv4}} }
 {% endif %}{% endfor %}
 {% endif %}{% endfor %}
-{% for service in component.services %}{% if interface.network == service.network %}
+{% for service in component.services %}{% if componentInterface.network == service.network %}
 {% for component2 in components %}{% if component2.placement != 'ROUTER' %}
 {% for dependency in component2.dependencies %}{% if dependency.component == component.name %}{% if dependency.service == service.name %}
 {% for network2 in networks %}{% if dependency.network == network2.name %}
@@ -480,13 +480,13 @@ templates['Servers (undefine security)'] = `{% for component in components %}{% 
   environment: "{{ '{{env_vars}}' }}"
   tasks:
 
-{% for interface in component.interfaces %}
-  # ----- security group for {{component.name}} interface {{tenant.prefix}}{{interface.network}} -----
-  - name: Delete {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}} security group
+{% for componentInterface in component.componentInterfaces %}
+  # ----- security group for {{component.name}} componentInterface {{tenant.prefix}}{{componentInterface.network}} -----
+  - name: Delete {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}} security group
     os_security_group:
       state:          absent
-      name:           {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}}
-      description:    Security group for the {{tenant.prefix}}{{component.name}} {{tenant.prefix}}{{interface.network}} interface.
+      name:           {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}}
+      description:    Security group for the {{tenant.prefix}}{{component.name}} {{tenant.prefix}}{{componentInterface.network}} componentInterface.
       validate_certs: no
 
 {% endfor %}
@@ -508,24 +508,24 @@ templates['Servers (create)'] = `{% for component in components %}{% if componen
     - ../../../input/environment.yml
   environment: "{{ '{{env_vars}}' }}"
   tasks:
-{% for interface in component.interfaces %}
-  # ----- {{interface.network}} port for {{tenant.prefix}}{{component_name}} -----
-  - name: Create {{interface.network}} port for {{tenant.prefix}}{{component_name}}
+{% for componentInterface in component.componentInterfaces %}
+  # ----- {{componentInterface.network}} port for {{tenant.prefix}}{{component_name}} -----
+  - name: Create {{componentInterface.network}} port for {{tenant.prefix}}{{component_name}}
     os_port:
       state:          present
-      name:           "{{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{interface.network}}"
-      network:        "{{tenant.prefix}}{{interface.network}}"
+      name:           "{{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{componentInterface.network}}"
+      network:        "{{tenant.prefix}}{{componentInterface.network}}"
       validate_certs: no
       security_groups:
-      - "{{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}}"
-{% if interface.attributes|allowed|length > 0 %}
+      - "{{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}}"
+{% if componentInterface.attributes|allowed|length > 0 %}
       allowed_address_pairs:
-{% for allowed in interface.attributes|allowed %}
+{% for allowed in componentInterface.attributes|allowed %}
       - ip_address: {{allowed}}
 {% endfor %}{% endif %}
-{% if interface.attributes|fixed|length > 0 %}
+{% if componentInterface.attributes|fixed|length > 0 %}
       fixed_ips:
-{% for fixed in interface.attributes|fixed %}
+{% for fixed in componentInterface.attributes|fixed %}
       - ip_address: {{fixed}}
 {% endfor %}{% endif %}
 
@@ -544,8 +544,8 @@ templates['Servers (create)'] = `{% for component in components %}{% if componen
       timeout:        600
       validate_certs: no
       nics:
-{% for interface in component.interfaces %}
-        - port-name: {{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{interface.network}}
+{% for componentInterface in component.componentInterfaces %}
+        - port-name: {{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{componentInterface.network}}
 {% endfor %}
       meta:
        hostname: {{tenant.prefix}}{{component_name}}
@@ -609,13 +609,13 @@ templates['Servers (delete)'] = `{% for component in components %}{% if componen
     - ../../../input/environment.yml
   environment: "{{ '{{env_vars}}' }}"
   tasks:
-{% for interface in component.interfaces %}
-  # ----- {{tenant.prefix}}{{interface.network}} port for {{tenant.prefix}}{{component_name}} -----
-  - name: Delete {{tenant.prefix}}{{interface.network}} port for {{tenant.prefix}}{{component_name}}
+{% for componentInterface in component.componentInterfaces %}
+  # ----- {{tenant.prefix}}{{componentInterface.network}} port for {{tenant.prefix}}{{component_name}} -----
+  - name: Delete {{tenant.prefix}}{{componentInterface.network}} port for {{tenant.prefix}}{{component_name}}
     os_port:
       state:          absent
-      name:           "{{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{interface.network}}"
-      network:        "{{tenant.prefix}}{{interface.network}}"
+      name:           "{{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{componentInterface.network}}"
+      network:        "{{tenant.prefix}}{{componentInterface.network}}"
       validate_certs: no
 
 {% endfor %}
@@ -687,9 +687,9 @@ templates['Router (create)'] = `{% for component in components %}{% if component
       state:          present
       name:           {{tenant.prefix}}{{component.name}}
       validate_certs: no
-      interface:
-{% for interface in component.interfaces %}
-      - subnet: {{tenant.prefix}}{{interface.network}}_subnet
+      componentInterface:
+{% for componentInterface in component.componentInterfaces %}
+      - subnet: {{tenant.prefix}}{{componentInterface.network}}_subnet
 {% endfor %}
 
 
@@ -718,9 +718,9 @@ templates['Router (delete)'] = `{% for component in components %}{% if component
       state:          absent
       name:           {{tenant.prefix}}{{component.name}}
       validate_certs: no
-      interface:
-{% for interface in component.interfaces %}
-      - subnet: {{tenant.prefix}}{{interface.network}}_subnet
+      componentInterface:
+{% for componentInterface in component.componentInterfaces %}
+      - subnet: {{tenant.prefix}}{{componentInterface.network}}_subnet
 {% endfor %}
 
 
@@ -958,18 +958,18 @@ resources:
        name:           "{{tenant.prefix}}{{component.name}}"
        admin_state_up: true
 
-{% for interface in component.interfaces %}{% for network in networks %}{% if network.name == interface.network %}
+{% for componentInterface in component.componentInterfaces %}{% for network in networks %}{% if network.name == componentInterface.network %}
 {% if network.ipv4 != "" %}
-  {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}}:
-    type: OS::Neutron::RouterInterface
+  {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}}:
+    type: OS::Neutron::RoutercomponentInterface
     properties:
       router: { get_attr: [{{tenant.prefix}}{{component.name}}, name] }
       subnet: { get_attr: [{{tenant.prefix}}{{network.name}}_v4, name] }
 
 {% endif %}
 {% if network.ipv6 != "" %}
-  {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}}:
-    type: OS::Neutron::RouterInterface
+  {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}}:
+    type: OS::Neutron::RoutercomponentInterface
     properties:
       router: { get_attr: [{{tenant.prefix}}{{component.name}}, name] }
       subnet: { get_attr: [{{tenant.prefix}}{{network.name}}_v6, name] }
@@ -985,21 +985,21 @@ templates['HEAT Security'] = `
 heat_template_version: 2015-04-30
 resources:
 {% for component in components %}{% if component.placement != 'OTHER' %}{% if component.placement != 'ROUTER' %}
-{% for interface in component.interfaces %}
-  {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}}:
+{% for componentInterface in component.componentInterfaces %}
+  {{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}}:
     type: OS::Neutron::SecurityGroup
     properties:
-      name:        "{{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}}"
+      name:        "{{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}}"
       rules:
         - {protocol: icmp, port_range_min: 0, port_range_max: 255,   remote_ip_prefix: 0.0.0.0/0}
         - {protocol: tcp,  port_range_min: 0, port_range_max: 65535, remote_ip_prefix: 0.0.0.0/0}
         - {protocol: udp,  port_range_min: 0, port_range_max: 65535, remote_ip_prefix: 0.0.0.0/0}
-{% for service in component.services %}{% if interface.network == service.network %}
-{% for network in networks %}{% if interface.network == network.name %}
+{% for service in component.services %}{% if componentInterface.network == service.network %}
+{% for network in networks %}{% if componentInterface.network == network.name %}
         - {protocol: {{service.protocol}}, port_range_min: {{service.range | portmin }}, port_range_max: {{service.range | portmax }}, remote_ip_prefix: {{network.ipv4}} }
 {% endif %}{% endfor %}
 {% endif %}{% endfor %}
-{% for service in component.services %}{% if interface.network == service.network %}
+{% for service in component.services %}{% if componentInterface.network == service.network %}
 {% for component2 in components %}{% if component2.placement != 'ROUTER' %}
 {% for dependency in component2.dependencies %}{% if dependency.component == component.name %}{% if dependency.service == service.name %}
 {% for network2 in networks %}{% if dependency.network == network2.name %}
@@ -1018,24 +1018,24 @@ templates['HEAT Servers'] = `{% for component in components %}{% if component.pl
 ----- {{tenant.prefix}}{{component_name}} -----
 heat_template_version: 2015-04-30
 resources:
-{% for interface in component.interfaces %}
-  # ----- Port: {{tenant.prefix}}{{interface.network}} for {{tenant.prefix}}{{component_name}} -----
-  {{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{interface.network}}:
+{% for componentInterface in component.componentInterfaces %}
+  # ----- Port: {{tenant.prefix}}{{componentInterface.network}} for {{tenant.prefix}}{{component_name}} -----
+  {{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{componentInterface.network}}:
      type: OS::Neutron::Port
      properties:
-       name:                  "{{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{interface.network}}"
-       network:               "{{tenant.prefix}}{{interface.network}}"
-       security_groups:       [ "{{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{interface.network}}" ]
+       name:                  "{{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{componentInterface.network}}"
+       network:               "{{tenant.prefix}}{{componentInterface.network}}"
+       security_groups:       [ "{{tenant.prefix}}{{component.name}}_{{tenant.prefix}}{{componentInterface.network}}" ]
        port_security_enabled: true
        admin_state_up:        true
-{% if interface.attributes|allowed|length > 0 %}
+{% if componentInterface.attributes|allowed|length > 0 %}
        allowed_address_pairs:
-{% for allowed in interface.attributes|allowed %}
+{% for allowed in componentInterface.attributes|allowed %}
          - ip_address: {{allowed}}
 {% endfor %}{% endif %}
-{% if interface.attributes|fixed|length > 0 %}
+{% if componentInterface.attributes|fixed|length > 0 %}
        fixed_ips:
-{% for fixed in interface.attributes|fixed %}
+{% for fixed in componentInterface.attributes|fixed %}
          - ip_address: {{fixed}}
 {% endfor %}{% endif %}
 
@@ -1064,8 +1064,8 @@ resources:
         {{ component.userdata | indent(8) | safe }}
 {% endif %}
       networks:
-{% for interface in component.interfaces %}
-        - port: { get_resource: {{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{interface.network}} }
+{% for componentInterface in component.componentInterfaces %}
+        - port: { get_resource: {{tenant.prefix}}{{component_name}}_{{tenant.prefix}}{{componentInterface.network}} }
 {% endfor %}
 {% if component.volumes|length > 0 %}
       block_device_mapping

@@ -138,11 +138,11 @@ export default {
 
         if (this.view.mode === 'current')
         {
-          current = JSON.parse(JSON.stringify(model));
+          let current = JSON.parse(JSON.stringify(this.model));
           this.view.mode='target'
           setModel(target)
         } else if (this.view.mode === 'target') {
-          target = JSON.parse(JSON.stringify(model));
+          let target = JSON.parse(JSON.stringify(this.model));
           this.view.mode='current'
           setModel(current)
         }

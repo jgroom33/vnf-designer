@@ -115,7 +115,7 @@ components:
     size:         1
     max:          1
     volumes:      []
-    interfaces:
+    componentInterfaces:
       - { network: "pub", attributes: "" }
     services:     []
     dependencies:
@@ -132,7 +132,7 @@ components:
     size:         1
     max:          1
     volumes:      []
-    interfaces:
+    componentInterfaces:
       - { network: "pub", attributes: "" }
       - { network: "oam", attributes: "" }
       - { network: "ext", attributes: "" }
@@ -153,7 +153,7 @@ components:
     size:         3
     max:          3
     volumes:      []
-    interfaces:
+    componentInterfaces:
       - { network: "oam", attributes: "" }
       - { network: "ext", attributes: "" }
       - { network: "int", attributes: "" }
@@ -174,7 +174,7 @@ components:
     max:          3
     volumes:
       - { name: "data", size: 100, type: "INT", attributes: "" }
-    interfaces:
+    componentInterfaces:
       - { network: "oam", attributes: "" }
       - { network: "int", attributes: "" }
     services:
@@ -194,7 +194,7 @@ components:
     size:         1
     max:          1
     volumes:      []
-    interfaces:
+    componentInterfaces:
       - { network: "pub", attributes: "" }
     services:     []
     dependencies:

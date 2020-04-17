@@ -11,12 +11,12 @@
         <div class="name">{{name}}</div>
         <div class="icon"><i class="fas fa-server"/></div>
         <monitoring_port
-          v-for="(interFace, subindex) in component.component.interFaces"
+          v-for="(componentInterface, subindex) in component.component.interFaces"
           :key="subindex"
           :model="model"
           :view="view"
           :component="component.component"
-          :interFace="interFace"
+          :componentInterface="componentInterface"
           :name="name"
           :index="index"
           :subindex="subindex"></monitoring_port>

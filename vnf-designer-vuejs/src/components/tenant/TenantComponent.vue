@@ -19,12 +19,12 @@
         <div class="sizing" v-if="component.placement != 'OTHER' && component.placement != 'ROUTER'">({{component.min}}/{{component.size}}/{{component.max}})</div>
         <div class="icon" @click="viewComponent"><i class="fas fa-server"/></div>
         <tenant_interFace
-          v-for="(interFace, subindex) in component.interFaces"
+          v-for="(componentInterface, subindex) in component.interFaces"
           :key="subindex"
           v-bind:model="model"
           v-bind:view="view"
           v-bind:component="component"
-          v-bind:interFace="interFace"
+          v-bind:componentInterface="componentInterface"
           v-bind:index="index"
           v-bind:subindex="subindex"></tenant_interFace>
       </div>

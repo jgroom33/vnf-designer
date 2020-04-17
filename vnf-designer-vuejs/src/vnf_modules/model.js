@@ -112,7 +112,7 @@ export function addComponent() {
   model.components.push({
     uuid: uuid, name: "comp-" + nr,
     placement: "MGMT", flavor: "none", image: "none", min: 1, max: 1, size: 1,
-    volumes: [], interFaces: [], services: [], dependencies: [], userdata: [] } );
+    volumes: [], componentInterfaces: [], services: [], dependencies: [], userdata: [] } );
 }
 
 //------------------------------------------------------------------------------
@@ -143,25 +143,25 @@ export function delComponentVolume(component,volume) {
 
 //------------------------------------------------------------------------------
 
-export function addComponentInterFace(component,network="") {
-  var name = (network !== "" ? network : "net-" + (component.interFaces.length + 1));
+export function addComponentcomponentInterface(component,network="") {
+  var name = (network !== "" ? network : "net-" + (component.componentInterfaces.length + 1));
 
-  component.interFaces.push({network: network, ipv4: "", ipv6: "", attributes:  ""});
+  component.componentInterfaces.push({network: network, ipv4: "", ipv6: "", attributes:  ""});
 }
 
 //------------------------------------------------------------------------------
 
-export function delComponentInterFace(component,interFace) {
-  var index = component.interFaces.indexOf(interFace);
+export function delComponentcomponentInterface(component,componentInterface) {
+  var index = component.componentInterfaces.indexOf(componentInterface);
 
-  if (index > -1) { component.interFaces.splice(index,1) }
+  if (index > -1) { component.componentInterfaces.splice(index,1) }
 }
 
 //------------------------------------------------------------------------------
 
-export function hasComponentInterFace(component,network) {
-  for (var interFace of component.interFaces) {
-    if (interFace.network === network) {return interFace;}
+export function hasComponentcomponentInterface(component,network) {
+  for (var componentInterface of component.componentInterfaces) {
+    if (componentInterface.network === network) {return componentInterface;}
   }
   return null;
 }
