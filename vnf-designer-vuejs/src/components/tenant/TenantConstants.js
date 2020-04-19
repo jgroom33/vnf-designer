@@ -12,20 +12,3 @@ export const XSLOT = DX + NET_WIDTH;
 export const YSLOT = DY + CMP_HEIGHT;
 export const PXOFFSET = 320;
 export const PYOFFSET = 56;
-
-// export default {
-//   DX: DX,
-//   DY: DY,
-//   NET_WIDTH: NET_WIDTH,
-//   NET_HEIGHT: NET_HEIGHT,
-//   CMP_WIDTH: CMP_WIDTH,
-//   CMP_HEIGHT: CMP_HEIGHT,
-//   CMP_HEIGHT2: CMP_HEIGHT2,
-//   TXT_HEIGHT: TXT_HEIGHT,
-//   XOFFSET: XOFFSET,
-//   YOFFSET: YOFFSET,
-//   XSLOT: XSLOT,
-//   YSLOT: YSLOT,
-//   PXOFFSET: PXOFFSET,
-//   PYOFFSET: PYOFFSET
-// };

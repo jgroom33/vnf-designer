@@ -128,7 +128,7 @@ export default {
             tabs.style.display = "none"
             break
           case "Docs":
-            var win = window.open("/docs", '_blank');
+            var win = window.open(window.location.href+"docs", "_blank");
             win.focus();
             break;
           default:

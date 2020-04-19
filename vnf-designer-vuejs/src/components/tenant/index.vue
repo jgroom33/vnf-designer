@@ -3,7 +3,8 @@
       <div class="vnf">VNF: {{model.vnf}}</div>
       <div class="tenant">Tenant: {{model.tenant.name}}</div>
       <div class="version">Version: {{model.version}}</div>
-      <div class="date">Timestamp: {{view.now}}</div>
+      <div class="date">Timestamp: {{timestamp}}</div>
+      <!-- <div class="date">Timestamp: {{view.now}}</div> -->
       <tenant_network
         v-for="(network, index) in model.networks"
         :key="'network-' + index"
@@ -31,8 +32,14 @@
 <script>
 import { PXOFFSET, XOFFSET, PYOFFSET, YOFFSET, XSLOT, YSLOT } from './TenantConstants'
 import { hasComponentInterface, delComponentInterface, addComponentInterface } from '../../vnf_modules/model'
+import { tick, meh } from '../../vnf_modules/view'
 export default {
     props:    ['model','view'],
+    data() {
+      return {
+        timestamp: null
+      }
+    },
     components: {
       tenant_network: () => import('./TenantNetwork'),
       tenant_network2: () => import('./TenantNetwork2'),
@@ -65,7 +72,19 @@ export default {
             addComponentInterface(cmp,net.name)
           }
         }
-      }
+      },
+      getNow: function() {
+         var t = new Date();
+        this.timestamp = t.getFullYear()+ "-" +
+                  ("0" + t.getMonth()).substr(-2)   + "-" +
+                  ("0" + t.getDate()).substr(-2)    + " " +
+                  ("0" + t.getHours()).substr(-2)   + ":" +
+                  ("0" + t.getMinutes()).substr(-2) + ":" +
+                  ("0" + t.getSeconds()).substr(-2);
+            }
+    },
+    created() {
+      setInterval(this.getNow, 1000)
     }
 }
 </script>

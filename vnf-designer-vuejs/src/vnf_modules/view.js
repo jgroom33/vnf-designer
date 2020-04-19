@@ -12,10 +12,21 @@ export var view = {
 
 //------------------------------------------------------------------------------
 
+export function meh () {
+	var t = new Date();
+	return t.getFullYear()                   + "-" +
+	           ("0" + t.getMonth()).substr(-2)   + "-" +
+						 ("0" + t.getDate()).substr(-2)    + " " +
+						 ("0" + t.getHours()).substr(-2)   + ":" +
+						 ("0" + t.getMinutes()).substr(-2) + ":" +
+						 ("0" + t.getSeconds()).substr(-2);
+}
+
 export function tick() {
 	var t = new Date();
 
-	view.now = t.getFullYear()                   + "-" +
+	// view.now =
+	return t.getFullYear()                   + "-" +
 	           ("0" + t.getMonth()).substr(-2)   + "-" +
 						 ("0" + t.getDate()).substr(-2)    + " " +
 						 ("0" + t.getHours()).substr(-2)   + ":" +
