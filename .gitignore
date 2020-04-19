@@ -1,9 +1,0 @@
-scripts/data2.js
-bin
-include
-share
-lib/dtrace
-lib/node_modules
-node_modules
-package-lock.json
-.DS_Store
