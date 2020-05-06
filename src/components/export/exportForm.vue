@@ -7,11 +7,24 @@
         <div class="button" title="copy to clipboard" v-on:click="copyToClipboard"><i class="fas fa-copy"/>&nbsp;Copy</div>
         <div class="format">
           Format: &nbsp;
-          <select v-model="view.export">
-            <option v-for="format in formats" v-bind:value="format">
-              {{ format }}
-            </option>
+          <select v-model="view.export" v-if="selectedModeview === 'etsi_mano'">
+            <template v-for="format in formats" v-bind:value="format">
+              <option :value="format" v-if="format === 'Canonical'">{{format}}</option>
+            </template>
           </select>
+
+          <select v-model="view.export" v-else>
+            <template v-for="format in formats" v-bind:value="format">
+              <option :value="format">{{format}}</option>
+            </template>
+          </select>
+<!--
+            <template v-for="format in formats" v-bind:value="format">
+              <option :value="format">{{format}}</option>
+            </template>
+           <option v-for="format in formats" v-bind:value="format" v-if="for">
+              {{ format }}
+            </option> -->
         </div>
       </div>
 
@@ -23,6 +36,7 @@
 <script>
 import nunjucks from 'nunjucks'
 import { fixed_ips_filter, allowed_ips_filter, port_min_filter, port_max_filter } from '../../vnf_modules/misc'
+import { mapFields } from 'vuex-map-fields'
 export default {
 props:    ['model','view','templates'],
     methods: {
@@ -230,6 +244,7 @@ props:    ['model','view','templates'],
       }
     },
     computed: {
+      ...mapFields(['selectedModeview']),
       formats: function() {
         return Object.keys(this.templates)
       },

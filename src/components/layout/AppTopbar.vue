@@ -3,10 +3,17 @@
         <div class="logo"><i class="fas fa-cloud"/>&nbsp;VNF Designer</div>
         <div id="apptitle" class="label">{{title}}</div>
         <div id="appbuttons" class="buttons">
+          <div title="Switch Mode">
+          <i class="fas fa-exchange-alt"></i>&nbsp;
+          <label for="modeview">Mode:</label>
+          <select id="modeview" v-model="selectedModeview" style="color:darkgrey;">
+            <option v-for="(modeview, idx) in modeviews" :key="idx" :value="idx">{{modeview}}</option>
+          </select>
+          </div>
           <div v-on:click="context('Tenant')" title="Tenant overview">
             <i class="fas fa-map"/>&nbsp;Overview
           </div>
-          <div v-on:click="context('Monitoring')" title="Monitoring overview" v-if="locationHostname">
+          <div v-on:click="context('Monitoring')" title="Monitoring overview" v-if="selectedModeview === 'openstack'">
             <i class="fas fa-heartbeat"/>&nbsp;Monitoring
           </div>
           <div v-on:click="reset" title="Reset model">
@@ -27,7 +34,7 @@
           <div v-on:click="context('Docs')" title="Documentation" v-if="locationHostname">
             <i class="fas fa-book"/>&nbsp;Docs
           </div>
-          <div class="state" v-on:click="toggleState" title="Toggle between current and target state">
+          <div class="state" v-on:click="toggleState" title="Toggle between current and target state"  v-if="selectedModeview === 'openstack'">
             &nbsp;<i class="fas fa-adjust"/>&nbsp; State: {{view.mode}}
           </div>
         </div>
@@ -76,6 +83,8 @@ import { setContext } from '../../vnf_modules/view'
 import { setModel, current, target, addFlavor, addImage, addNetwork, addComponent } from '../../vnf_modules/model'
 import { emptyModel } from '../../vnf_modules/misc'
 import { validate_schema, validate_xref } from '../../vnf_modules/validator'
+import { mapState } from 'vuex'
+import { mapFields } from 'vuex-map-fields'
 export default {
     props: ['model','view'],
     data() {
@@ -84,6 +93,8 @@ export default {
       }
     },
     computed: {
+    ...mapState(['modeviews',]),
+      ...mapFields(['selectedModeview']),
       title: function() {
         switch(this.view.detail) {
           case "Monitoring":
@@ -314,7 +325,8 @@ export default {
 }
 
 #appheader .buttons div:hover {
-  color: black;
+  /* color: black;*/
+  color:white;
 }
 
 #appheader .buttons div:last-child {
