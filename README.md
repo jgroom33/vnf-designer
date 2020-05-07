@@ -1,4 +1,8 @@
-# vnf-designer-vuejs
+# vnf-designer
+
+[Live Demo](https://bernardtsai.github.io/vnf-designer/)
+
+[![Try it!](simple_display.png)](https://bernardtsai.github.io/vnf-designer/)
 
 A simple webpage capable of:
 - modelling the networks, components (incl. images and flavors) and ports of VNFs,
